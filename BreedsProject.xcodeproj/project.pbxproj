@@ -15,6 +15,16 @@
 		9FBFF7662A12E6C400286E89 /* BreedsProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7652A12E6C400286E89 /* BreedsProjectTests.swift */; };
 		9FBFF7702A12E6C500286E89 /* BreedsProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF76F2A12E6C500286E89 /* BreedsProjectUITests.swift */; };
 		9FBFF7722A12E6C500286E89 /* BreedsProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7712A12E6C500286E89 /* BreedsProjectUITestsLaunchTests.swift */; };
+		9FBFF78A2A13D16500286E89 /* CoreDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7892A13D16500286E89 /* CoreDependencies.swift */; };
+		9FBFF78C2A13D17A00286E89 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF78B2A13D17A00286E89 /* Navigator.swift */; };
+		9FBFF7912A13D1AA00286E89 /* ViewControllersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7902A13D1AA00286E89 /* ViewControllersFactory.swift */; };
+		9FBFF7932A13D22900286E89 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7922A13D22900286E89 /* NetworkManager.swift */; };
+		9FBFF7962A13D25100286E89 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7952A13D25100286E89 /* ImageCache.swift */; };
+		9FBFF79A2A13D3FA00286E89 /* NavigationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7992A13D3FA00286E89 /* NavigationProtocols.swift */; };
+		9FBFF79C2A13D66C00286E89 /* BreedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF79B2A13D66C00286E89 /* BreedsViewController.swift */; };
+		9FBFF79E2A13D67E00286E89 /* BreedsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF79D2A13D67E00286E89 /* BreedsViewModel.swift */; };
+		9FBFF7A02A13DA8C00286E89 /* BreedsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF79F2A13DA8C00286E89 /* BreedsSearchViewController.swift */; };
+		9FBFF7A22A13DAA100286E89 /* BreedsSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7A12A13DAA100286E89 /* BreedsSearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +57,16 @@
 		9FBFF76B2A12E6C500286E89 /* BreedsProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreedsProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBFF76F2A12E6C500286E89 /* BreedsProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsProjectUITests.swift; sourceTree = "<group>"; };
 		9FBFF7712A12E6C500286E89 /* BreedsProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9FBFF7892A13D16500286E89 /* CoreDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDependencies.swift; sourceTree = "<group>"; };
+		9FBFF78B2A13D17A00286E89 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
+		9FBFF7902A13D1AA00286E89 /* ViewControllersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllersFactory.swift; sourceTree = "<group>"; };
+		9FBFF7922A13D22900286E89 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9FBFF7952A13D25100286E89 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		9FBFF7992A13D3FA00286E89 /* NavigationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationProtocols.swift; sourceTree = "<group>"; };
+		9FBFF79B2A13D66C00286E89 /* BreedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsViewController.swift; sourceTree = "<group>"; };
+		9FBFF79D2A13D67E00286E89 /* BreedsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsViewModel.swift; sourceTree = "<group>"; };
+		9FBFF79F2A13DA8C00286E89 /* BreedsSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsSearchViewController.swift; sourceTree = "<group>"; };
+		9FBFF7A12A13DAA100286E89 /* BreedsSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsSearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +117,15 @@
 		9FBFF74D2A12E6C300286E89 /* BreedsProject */ = {
 			isa = PBXGroup;
 			children = (
+				9FBFF7942A13D24000286E89 /* Cache */,
+				9FBFF7862A13D12000286E89 /* Views */,
+				9FBFF7852A13D11800286E89 /* ViewModels */,
+				9FBFF7842A13D10E00286E89 /* ViewControllers */,
+				9FBFF7832A13D0F200286E89 /* Dependencies */,
+				9FBFF7822A13D0EA00286E89 /* Models */,
+				9FBFF7812A13D0C700286E89 /* Network */,
+				9FBFF7802A13D0BA00286E89 /* Factories */,
+				9FBFF77E2A13D0A000286E89 /* Navigator */,
 				9FBFF74E2A12E6C300286E89 /* AppDelegate.swift */,
 				9FBFF7502A12E6C300286E89 /* SceneDelegate.swift */,
 				9FBFF7522A12E6C300286E89 /* ViewController.swift */,
@@ -122,6 +151,79 @@
 				9FBFF7712A12E6C500286E89 /* BreedsProjectUITestsLaunchTests.swift */,
 			);
 			path = BreedsProjectUITests;
+			sourceTree = "<group>";
+		};
+		9FBFF77E2A13D0A000286E89 /* Navigator */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF78B2A13D17A00286E89 /* Navigator.swift */,
+				9FBFF7992A13D3FA00286E89 /* NavigationProtocols.swift */,
+			);
+			path = Navigator;
+			sourceTree = "<group>";
+		};
+		9FBFF7802A13D0BA00286E89 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF7902A13D1AA00286E89 /* ViewControllersFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		9FBFF7812A13D0C700286E89 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF7922A13D22900286E89 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9FBFF7822A13D0EA00286E89 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9FBFF7832A13D0F200286E89 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF7892A13D16500286E89 /* CoreDependencies.swift */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		9FBFF7842A13D10E00286E89 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF79B2A13D66C00286E89 /* BreedsViewController.swift */,
+				9FBFF79F2A13DA8C00286E89 /* BreedsSearchViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9FBFF7852A13D11800286E89 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF79D2A13D67E00286E89 /* BreedsViewModel.swift */,
+				9FBFF7A12A13DAA100286E89 /* BreedsSearchViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9FBFF7862A13D12000286E89 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9FBFF7942A13D24000286E89 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				9FBFF7952A13D25100286E89 /* ImageCache.swift */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,8 +357,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FBFF7532A12E6C300286E89 /* ViewController.swift in Sources */,
+				9FBFF78C2A13D17A00286E89 /* Navigator.swift in Sources */,
+				9FBFF7962A13D25100286E89 /* ImageCache.swift in Sources */,
+				9FBFF78A2A13D16500286E89 /* CoreDependencies.swift in Sources */,
+				9FBFF7932A13D22900286E89 /* NetworkManager.swift in Sources */,
+				9FBFF79C2A13D66C00286E89 /* BreedsViewController.swift in Sources */,
+				9FBFF7A02A13DA8C00286E89 /* BreedsSearchViewController.swift in Sources */,
+				9FBFF79A2A13D3FA00286E89 /* NavigationProtocols.swift in Sources */,
+				9FBFF79E2A13D67E00286E89 /* BreedsViewModel.swift in Sources */,
 				9FBFF74F2A12E6C300286E89 /* AppDelegate.swift in Sources */,
 				9FBFF7512A12E6C300286E89 /* SceneDelegate.swift in Sources */,
+				9FBFF7A22A13DAA100286E89 /* BreedsSearchViewModel.swift in Sources */,
+				9FBFF7912A13D1AA00286E89 /* ViewControllersFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
