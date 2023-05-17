@@ -44,8 +44,10 @@ final class ViewControllersFactory {
     func makeBreedsViewController(navigator: BreedDetailsNavigationProtocol) -> UIViewController {
         
         let viewModel = BreedsViewModel(networkService: self.coreDependencies.network)
-        
+        let imageDownloader = ImageDownloadManager(imageCache: self.coreDependencies.imageCache)
+
         return BreedsViewController(viewModel: viewModel,
+                                    imageDownloader: imageDownloader,
                                     navigator: navigator)
     }
     

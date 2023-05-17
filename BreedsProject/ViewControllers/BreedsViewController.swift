@@ -9,9 +9,6 @@ import UIKit
 
 class BreedsViewController: UIViewController {
     
-    // Data
-    var items: [String] = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-
     // Views
     private let collectionView: UICollectionView = {
         
@@ -22,22 +19,22 @@ class BreedsViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private var barButtonItem = UIBarButtonItem()
-    
+    private var layoutButtonItem: UIBarButtonItem?
+
     // State
     var isGridMode = false {
         
         didSet {
             
             self.configureFlowLayout()
-            self.updateBarButtonImage()
+            self.updateLayoutButtonImage()
             self.configureDataSource()
             self.applySnapshot()
         }
     }
     
     // Data Source
-    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, String>?
+    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, BreedModel>?
 
     private enum Section {
         
@@ -58,14 +55,17 @@ class BreedsViewController: UIViewController {
     //MARK: Properties
         
     private unowned let navigator: BreedDetailsNavigationProtocol
+    private let imageDownloader: ImageDownloadProtocol
     private let viewModel: BreedsViewModel
     
     //MARK: Initializer
     
     init(viewModel: BreedsViewModel,
+         imageDownloader: ImageDownloadProtocol,
          navigator: BreedDetailsNavigationProtocol) {
         
         self.viewModel  = viewModel
+        self.imageDownloader = imageDownloader
         self.navigator = navigator
                 
         super.init(nibName: nil, bundle: nil)
@@ -85,7 +85,9 @@ class BreedsViewController: UIViewController {
         
         self.configureDataSource()
         
-        self.applySnapshot()
+        self.bindViewModel()
+        
+        self.viewModel.fetchBreeds()
     }
 }
 
@@ -105,18 +107,22 @@ private extension BreedsViewController {
         
         self.title = "Breeds"
 
-        self.barButtonItem = UIBarButtonItem(image: UIImage(systemName: Constants.squareGridImage),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(self.toggleLayout))
+        self.layoutButtonItem = UIBarButtonItem(image: UIImage(systemName: Constants.squareGridImage),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(self.didPressLayoutButton))
         
-        self.navigationItem.rightBarButtonItem = self.barButtonItem
+    
+        
+        guard let layoutButtonItem = self.layoutButtonItem else { return }
+        
+        self.navigationItem.rightBarButtonItems = [layoutButtonItem]
     }
     
-    func updateBarButtonImage() {
+    func updateLayoutButtonImage() {
         
         let imageName = self.isGridMode ? Constants.listBulletImage : Constants.squareGridImage
-        self.barButtonItem.image = UIImage(systemName: imageName)
+        self.layoutButtonItem?.image = UIImage(systemName: imageName)
     }
     
     func configureCollectionView() {
@@ -125,6 +131,7 @@ private extension BreedsViewController {
         self.collectionView.backgroundColor = .systemBackground
         self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: Constants.gridCellIdentifier)
         self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: Constants.listCellIdentifier)
+        self.collectionView.delegate = self
     }
     
     func configureFlowLayout() {
@@ -138,7 +145,7 @@ private extension BreedsViewController {
             
         } else {
             
-            layout.itemSize = CGSize(width: self.collectionView.frame.width, height: 60)
+            layout.itemSize = CGSize(width: self.collectionView.frame.width, height: 56)
         }
     }
     
@@ -148,14 +155,44 @@ private extension BreedsViewController {
     }
 }
 
+//MARK: ViewModel Binding
+
+extension BreedsViewController {
+    
+    func bindViewModel () {
+        
+        self.viewModel.$breeds
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                
+                self?.applySnapshot()
+            }
+            .store(in: &self.viewModel.cancellables)
+    }
+}
+
 //MARK: User Interaction
 
 private extension BreedsViewController {
     
-    @objc func toggleLayout() {
+    @objc
+    func didPressLayoutButton() {
         
         self.isGridMode.toggle()
-     }
+    }
+}
+
+extension BreedsViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        let lastIndex = collectionView.numberOfItems(inSection: 0) - 1
+        
+        if indexPath.item == lastIndex {
+
+            self.viewModel.fetchBreeds()
+        }
+    }
 }
 
 //MARK: Data Source Configuration
@@ -164,7 +201,7 @@ private extension BreedsViewController {
     
     func configureDataSource() {
         
-        self.diffableDataSource = UICollectionViewDiffableDataSource<Section, String>(collectionView: self.collectionView) { collectionView, indexPath, item in
+        self.diffableDataSource = UICollectionViewDiffableDataSource<Section, BreedModel>(collectionView: self.collectionView) { collectionView, indexPath, item in
             
             if self.isGridMode {
                 
@@ -174,7 +211,7 @@ private extension BreedsViewController {
                     return UICollectionViewCell()
                 }
                 
-                cell.textLabel.text = item
+                cell.configure(with: item, imageDownloader: self.imageDownloader)
                 
                 return cell
                 
@@ -186,7 +223,7 @@ private extension BreedsViewController {
                     return UICollectionViewCell()
                 }
                 
-                cell.textLabel.text = item
+                cell.configure(with: item, imageDownloader: self.imageDownloader)
                 
                 return cell
             }
@@ -195,49 +232,9 @@ private extension BreedsViewController {
     
     private func applySnapshot() {
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, BreedModel>()
         snapshot.appendSections([.breeds])
-        snapshot.appendItems(self.items, toSection: .breeds)
+        snapshot.appendItems(self.viewModel.breeds, toSection: .breeds)
         self.diffableDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-}
-
-// Dummy Cells for layout testing purposes - it will be deleted
-
-class GridCell: UICollectionViewCell {
-    let textLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        label.textAlignment = .center
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(textLabel)
-        
-        self.backgroundColor = .red
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class ListCell: UICollectionViewCell {
-    let textLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        label.textAlignment = .center
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(textLabel)
-        
-        self.backgroundColor = .blue
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
