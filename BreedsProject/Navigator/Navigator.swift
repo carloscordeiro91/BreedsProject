@@ -10,7 +10,8 @@ import UIKit
 
 final class Navigator {
     
-    weak var navigationController: UINavigationController?
+    weak var tabBarController: UITabBarController?
+
     let viewControllersFactory: ViewControllersFactory
     
     init(coreDependencies: HasCoreDependencies) {
@@ -22,8 +23,28 @@ final class Navigator {
 extension Navigator: BreedDetailsNavigationProtocol  {
     
     @discardableResult
-    func navigateToBreedDetailsViewController() -> UIViewController? {
+    func navigateToTabViewController() -> UITabBarController {
         
-        return UIViewController()
+        let viewController = self.viewControllersFactory.makeTabBarViewController(navigator: self)
+        
+        self.tabBarController = viewController
+        
+        return viewController
+        
+    }
+    
+    @discardableResult
+    func navigateToBreedDetailsViewController(with breedModel: BreedModel) -> UIViewController? {
+        
+        let detailsViewController = self.viewControllersFactory.makeBreedDetailsViewController(breedModel: breedModel)
+        
+        guard let navigationController = self.tabBarController?.selectedViewController as? UINavigationController else {
+            
+            return nil
+        }
+        
+        navigationController.pushViewController(detailsViewController, animated: true)
+        
+        return detailsViewController
     }
 }

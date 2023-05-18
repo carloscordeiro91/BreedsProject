@@ -10,5 +10,5 @@ import UIKit
 protocol BreedDetailsNavigationProtocol: AnyObject {
     
     @discardableResult
-    func navigateToBreedDetailsViewController() -> UIViewController?
+    func navigateToBreedDetailsViewController(with breedModel: BreedModel) -> UIViewController?
 }

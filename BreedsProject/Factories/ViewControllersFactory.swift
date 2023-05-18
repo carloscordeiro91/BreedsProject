@@ -58,4 +58,9 @@ final class ViewControllersFactory {
         return BreedsSearchViewController(viewModel: viewModel,
                                           navigator: navigator)
     }
+    
+    func makeBreedDetailsViewController(breedModel: BreedModel) -> UIViewController {
+        
+        return BreedDetailsViewController(breedModel: breedModel)
+    }
 }

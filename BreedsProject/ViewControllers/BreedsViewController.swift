@@ -184,7 +184,16 @@ private extension BreedsViewController {
 
 extension BreedsViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        guard let breedModel = self.diffableDataSource?.itemIdentifier(for: indexPath) else { return }
+        
+        self.navigator.navigateToBreedDetailsViewController(with: breedModel)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         
         let lastIndex = collectionView.numberOfItems(inSection: 0) - 1
         
@@ -235,6 +244,6 @@ private extension BreedsViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, BreedModel>()
         snapshot.appendSections([.breeds])
         snapshot.appendItems(self.viewModel.breeds, toSection: .breeds)
-        self.diffableDataSource?.apply(snapshot, animatingDifferences: true)
+        self.diffableDataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

@@ -32,6 +32,7 @@
 		9FBFF7AC2A157FEE00286E89 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7AB2A157FEE00286E89 /* GridCell.swift */; };
 		9FBFF7AF2A15846500286E89 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7AE2A15846500286E89 /* UIView+AutoLayout.swift */; };
 		9FBFF7B12A1584B500286E89 /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7B02A1584B500286E89 /* ImageDownloadManager.swift */; };
+		9FBFF7B32A16BBEC00286E89 /* BreedDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7B22A16BBEC00286E89 /* BreedDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		9FBFF7AB2A157FEE00286E89 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		9FBFF7AE2A15846500286E89 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		9FBFF7B02A1584B500286E89 /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
+		9FBFF7B22A16BBEC00286E89 /* BreedDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			children = (
 				9FBFF79B2A13D66C00286E89 /* BreedsViewController.swift */,
 				9FBFF79F2A13DA8C00286E89 /* BreedsSearchViewController.swift */,
+				9FBFF7B22A16BBEC00286E89 /* BreedDetailsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FBFF7532A12E6C300286E89 /* ViewController.swift in Sources */,
+				9FBFF7B32A16BBEC00286E89 /* BreedDetailsViewController.swift in Sources */,
 				9FBFF7A62A1573E700286E89 /* ImageModel.swift in Sources */,
 				9FBFF78C2A13D17A00286E89 /* Navigator.swift in Sources */,
 				9FBFF7B12A1584B500286E89 /* ImageDownloadManager.swift in Sources */,
