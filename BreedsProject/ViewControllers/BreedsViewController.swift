@@ -112,8 +112,6 @@ private extension BreedsViewController {
                                                 target: self,
                                                 action: #selector(self.didPressLayoutButton))
         
-    
-        
         guard let layoutButtonItem = self.layoutButtonItem else { return }
         
         self.navigationItem.rightBarButtonItems = [layoutButtonItem]

@@ -61,6 +61,8 @@ final class ViewControllersFactory {
     
     func makeBreedDetailsViewController(breedModel: BreedModel) -> UIViewController {
         
-        return BreedDetailsViewController(breedModel: breedModel)
+        let imageDownloader = ImageDownloadManager(imageCache: self.coreDependencies.imageCache)
+        
+        return BreedDetailsViewController(breedModel: breedModel, imageDownloader: imageDownloader)
     }
 }

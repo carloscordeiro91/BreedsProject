@@ -10,9 +10,8 @@ import UIKit
 
 final class Navigator {
     
-    weak var tabBarController: UITabBarController?
-
-    let viewControllersFactory: ViewControllersFactory
+    private weak var tabBarController: UITabBarController?
+    private let viewControllersFactory: ViewControllersFactory
     
     init(coreDependencies: HasCoreDependencies) {
 
@@ -30,7 +29,6 @@ extension Navigator: BreedDetailsNavigationProtocol  {
         self.tabBarController = viewController
         
         return viewController
-        
     }
     
     @discardableResult

@@ -69,6 +69,7 @@ extension GridCell {
         
         //Configure Breed Name
         self.breedNameLabel.text = breedModel.name
+        self.breedNameLabel.adjustsFontSizeToFitWidth = true
     }
 }
 
