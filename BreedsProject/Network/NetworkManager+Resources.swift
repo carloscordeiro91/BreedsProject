@@ -19,7 +19,6 @@ extension NetworkManager {
     enum DataType {
         
         case search(text: String)
-        case breed(breedId: Int)
         case breeds(pageNumber: Int)
         
         var url: URL? {
@@ -30,9 +29,6 @@ extension NetworkManager {
                 
             case .search:
                 path = Paths.search
-                
-            case .breed:
-                path = Paths.breedId
                 
             case .breeds:
                 path = Paths.breeds
@@ -45,11 +41,10 @@ extension NetworkManager {
             
             switch self {
                 
-            case .search:
-                return []
-                
-            case .breed:
-                return []
+            case .search(text: let searchText):
+                return [
+                    URLQueryItem(name: "q", value: searchText)
+]
                 
             case .breeds(pageNumber: let pageNumber):
                 return [
@@ -68,8 +63,7 @@ extension NetworkManager {
     enum Paths {
         
         static let breeds = "breeds"
-        static let search = ""
-        static let breedId = ""
+        static let search = "breeds/search"
     }
     
     enum Headers {

@@ -14,7 +14,7 @@ struct BreedModel: Hashable, Codable {
     let origin: String?
     let category: String?
     let temperament: String?
-    let image: ImageModel
+    let image: ImageModel?
     
     enum CodingKeys: String, CodingKey {
         

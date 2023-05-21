@@ -79,7 +79,8 @@ private extension BreedDetailsViewController {
     
     func configureImageView() {
         
-        if let imageURL = URL(string: self.breedModel.image.url) {
+        if let imageURLString = self.breedModel.image?.url,
+           let imageURL = URL(string: imageURLString) {
             
             let breedImage = UIImageView().usingAutoLayout()
             
@@ -122,6 +123,12 @@ private extension BreedDetailsViewController {
             
             let categoryView = BreedDetailsViewsFactory.makeDetailsInfoView(with: "Category", caption: category)
             self.verticalStackView.addArrangedSubview(categoryView)
+        }
+        
+        if let temperament = self.breedModel.temperament, !temperament.isEmpty {
+            
+            let temperamentView = BreedDetailsViewsFactory.makeDetailsInfoView(with: "Temperament", caption: temperament)
+            self.verticalStackView.addArrangedSubview(temperamentView)
         }
     }
     

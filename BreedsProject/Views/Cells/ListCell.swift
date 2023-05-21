@@ -57,7 +57,8 @@ extension ListCell {
         self.imageDownloader = imageDownloader
         
         // Configure Breed Image
-        if let imageUrl = URL(string: breedModel.image.url) {
+        if let imageURLString = breedModel.image?.url,
+           let imageUrl = URL(string: imageURLString) {
             
             self.imageCancellable = self.imageDownloader?.loadImage(from: imageUrl)
                 .sink { [weak self] image in

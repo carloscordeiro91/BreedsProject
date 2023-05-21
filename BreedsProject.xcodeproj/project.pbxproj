@@ -34,6 +34,7 @@
 		9FBFF7B12A1584B500286E89 /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7B02A1584B500286E89 /* ImageDownloadManager.swift */; };
 		9FBFF7B32A16BBEC00286E89 /* BreedDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7B22A16BBEC00286E89 /* BreedDetailsViewController.swift */; };
 		9FBFF7B62A1800AE00286E89 /* BreedDetailsViewsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7B52A1800AE00286E89 /* BreedDetailsViewsFactory.swift */; };
+		9FBFF7BB2A198BA600286E89 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBFF7BA2A198BA600286E89 /* SearchCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		9FBFF7B02A1584B500286E89 /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
 		9FBFF7B22A16BBEC00286E89 /* BreedDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedDetailsViewController.swift; sourceTree = "<group>"; };
 		9FBFF7B52A1800AE00286E89 /* BreedDetailsViewsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedDetailsViewsFactory.swift; sourceTree = "<group>"; };
+		9FBFF7BA2A198BA600286E89 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 			children = (
 				9FBFF7A92A157FDD00286E89 /* ListCell.swift */,
 				9FBFF7AB2A157FEE00286E89 /* GridCell.swift */,
+				9FBFF7BA2A198BA600286E89 /* SearchCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				9FBFF7512A12E6C300286E89 /* SceneDelegate.swift in Sources */,
 				9FBFF7A22A13DAA100286E89 /* BreedsSearchViewModel.swift in Sources */,
 				9FBFF7912A13D1AA00286E89 /* ViewControllersFactory.swift in Sources */,
+				9FBFF7BB2A198BA600286E89 /* SearchCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
