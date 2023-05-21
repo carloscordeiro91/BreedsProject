@@ -27,11 +27,7 @@ class BreedsSearchViewModel {
         
         self.isLoading = true
         
-        let trimmedText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard let encodedText = trimmedText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
-        
-        self.networkService.getData(.search(text: encodedText), ofType: [BreedModel].self)
+        self.networkService.getData(.search(text: searchText), ofType: [BreedModel].self)
             .receive(on: DispatchQueue.main)
             .removeDuplicates()
             .sink(

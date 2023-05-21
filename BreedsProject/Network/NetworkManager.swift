@@ -19,13 +19,25 @@ enum APIError: Error {
     case invalidResponse
     case invalidURL
     case networkError(Error)
+    case genericError
+    
+    init(_ error: Error) {
+        
+        guard let _ = error as? APIError else {
+            
+            self = .genericError
+            return
+        }
+        
+        self = .genericError
+    }
 }
 
 class NetworkManager: NetworkProtocol {
     
-    let urlSession: URLSession
+    let urlSession: URLSessionProtocol
 
-    init(urlSession: URLSession = URLSession.shared) {
+    init(urlSession: URLSessionProtocol) {
         
         self.urlSession = urlSession
     }
@@ -48,7 +60,7 @@ class NetworkManager: NetworkProtocol {
         var request = URLRequest(url: componentsURL)
         request.addValue(Headers.apiKeyValue, forHTTPHeaderField: Headers.headerField)
         
-        return self.urlSession.dataTaskPublisher(for: request)
+        return self.urlSession.dataTaskPublisher(with: request)
             .tryMap { data, response in
                 
                 guard let httpResponse = response as? HTTPURLResponse,
