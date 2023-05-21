@@ -16,7 +16,7 @@ final class ViewControllersFactory {
         self.coreDependencies = coreDependencies
     }
     
-    func makeTabBarViewController(navigator: BreedDetailsNavigationProtocol) -> UITabBarController {
+    func makeTabBarViewController(navigator: BreedsNavigationProtocol) -> UITabBarController {
         
         let tabBarController = UITabBarController()
         tabBarController.tabBar.backgroundColor = .systemBackground
@@ -41,7 +41,7 @@ final class ViewControllersFactory {
         return tabBarController
     }
     
-    func makeBreedsViewController(navigator: BreedDetailsNavigationProtocol) -> UIViewController {
+    func makeBreedsViewController(navigator: BreedsNavigationProtocol) -> UIViewController {
         
         let viewModel = BreedsViewModel(networkService: self.coreDependencies.network)
         let imageDownloader = ImageDownloadManager(imageCache: self.coreDependencies.imageCache)
@@ -51,7 +51,7 @@ final class ViewControllersFactory {
                                     navigator: navigator)
     }
     
-    func makeBreedsSearchViewController(navigator: BreedDetailsNavigationProtocol) -> UIViewController {
+    func makeBreedsSearchViewController(navigator: BreedsNavigationProtocol) -> UIViewController {
         
         let viewModel = BreedsSearchViewModel(networkService: self.coreDependencies.network)
         

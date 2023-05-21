@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Combine
+
+typealias BreedsNavigationProtocol = BreedDetailsNavigationProtocol & ActionSheetNavigationProtocol
 
 class BreedsViewController: UIViewController {
     
@@ -19,19 +22,15 @@ class BreedsViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private var layoutButtonItem: UIBarButtonItem?
-
-    // State
-    var isGridMode = false {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         
-        didSet {
-            
-            self.configureFlowLayout()
-            self.updateLayoutButtonImage()
-            self.configureDataSource()
-            self.applySnapshot()
-        }
-    }
+        let activityIndicator = UIActivityIndicatorView(style: .medium).usingAutoLayout()
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
+    
+    private var layoutButtonItem: UIBarButtonItem?
     
     // Data Source
     private var diffableDataSource: UICollectionViewDiffableDataSource<Section, BreedModel>?
@@ -54,15 +53,17 @@ class BreedsViewController: UIViewController {
 
     //MARK: Properties
         
-    private unowned let navigator: BreedDetailsNavigationProtocol
+    private unowned let navigator: BreedsNavigationProtocol
     private let imageDownloader: ImageDownloadProtocol
     private let viewModel: BreedsViewModel
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     //MARK: Initializer
     
     init(viewModel: BreedsViewModel,
          imageDownloader: ImageDownloadProtocol,
-         navigator: BreedDetailsNavigationProtocol) {
+         navigator: BreedsNavigationProtocol) {
         
         self.viewModel  = viewModel
         self.imageDownloader = imageDownloader
@@ -83,7 +84,7 @@ class BreedsViewController: UIViewController {
         
         self.configureViews()
         
-        self.configureDataSource()
+        self.configureDataSource(isGridMode: false)
         
         self.bindViewModel()
         
@@ -99,8 +100,9 @@ private extension BreedsViewController {
                 
         self.configureNavBar()
         self.configureCollectionView()
-        self.configureFlowLayout()
+        self.configureFlowLayout(isGridMode: false)
         self.addSubviews()
+        self.configureAutoLayout()
     }
     
     func configureNavBar() {
@@ -117,9 +119,9 @@ private extension BreedsViewController {
         self.navigationItem.rightBarButtonItems = [layoutButtonItem]
     }
     
-    func updateLayoutButtonImage() {
+    func updateLayoutButtonImage(isGridMode: Bool) {
         
-        let imageName = self.isGridMode ? Constants.listBulletImage : Constants.squareGridImage
+        let imageName = isGridMode ? Constants.listBulletImage : Constants.squareGridImage
         self.layoutButtonItem?.image = UIImage(systemName: imageName)
     }
     
@@ -132,11 +134,11 @@ private extension BreedsViewController {
         self.collectionView.delegate = self
     }
     
-    func configureFlowLayout() {
+    func configureFlowLayout(isGridMode: Bool) {
         
         guard let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
-        if self.isGridMode {
+        if isGridMode {
             
             layout.itemSize = CGSize(width: (self.collectionView.frame.width - 10) / 2,
                                      height: (self.collectionView.frame.width - 10) / 2)
@@ -150,6 +152,16 @@ private extension BreedsViewController {
     func addSubviews() {
         
         self.view.addSubview(self.collectionView)
+        self.collectionView.addSubview(self.activityIndicator)
+    }
+    
+    func configureAutoLayout() {
+        
+        NSLayoutConstraint.activate([
+        
+            self.activityIndicator.centerXAnchor.constraint(equalTo: self.collectionView.centerXAnchor),
+            self.activityIndicator.centerYAnchor.constraint(equalTo: self.collectionView.safeAreaLayoutGuide.centerYAnchor)
+        ])
     }
 }
 
@@ -165,7 +177,40 @@ extension BreedsViewController {
                 
                 self?.applySnapshot()
             }
-            .store(in: &self.viewModel.cancellables)
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] isLoading in
+                                
+                isLoading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+            })
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                
+                if error != nil {
+                    
+                    self?.navigator.navigateToErrorAlert {
+                        
+                        self?.viewModel.fetchBreeds()
+                    }
+                }
+            }
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$isGridMode
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isGridMode in
+                
+                self?.configureFlowLayout(isGridMode: isGridMode)
+                self?.updateLayoutButtonImage(isGridMode: isGridMode)
+                self?.configureDataSource(isGridMode: isGridMode)
+                self?.applySnapshot()
+            }
+            .store(in: &self.cancellables)
     }
 }
 
@@ -176,7 +221,7 @@ private extension BreedsViewController {
     @objc
     func didPressLayoutButton() {
         
-        self.isGridMode.toggle()
+        self.viewModel.isGridModeToggleWasPressed()
     }
 }
 
@@ -206,11 +251,11 @@ extension BreedsViewController: UICollectionViewDelegate {
 
 private extension BreedsViewController {
     
-    func configureDataSource() {
+    func configureDataSource(isGridMode: Bool) {
         
         self.diffableDataSource = UICollectionViewDiffableDataSource<Section, BreedModel>(collectionView: self.collectionView) { collectionView, indexPath, item in
             
-            if self.isGridMode {
+            if isGridMode {
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.gridCellIdentifier,
                                                                     for: indexPath) as? GridCell else {

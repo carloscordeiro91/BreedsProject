@@ -11,6 +11,8 @@ import Combine
 class BreedsSearchViewModel {
     
     @Published var breeds: [BreedModel] = []
+    @Published var isLoading = false
+    @Published var error: APIError?
     
     private var cancellables = Set<AnyCancellable>()
 
@@ -23,6 +25,8 @@ class BreedsSearchViewModel {
     
     func searchBreeds(with searchText: String) {
         
+        self.isLoading = true
+        
         let trimmedText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         
         guard let encodedText = trimmedText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
@@ -31,8 +35,18 @@ class BreedsSearchViewModel {
             .receive(on: DispatchQueue.main)
             .removeDuplicates()
             .sink(
-                receiveCompletion: { _ in
+                receiveCompletion: { completion in
 
+                    self.isLoading = false
+                    
+                    switch completion {
+                        
+                    case .finished:
+                        print("fetch breeds finished successfully")
+                        
+                    case .failure(let error):
+                        self.error = error
+                    }
                 },
                 receiveValue: { [weak self] breeds in
                     

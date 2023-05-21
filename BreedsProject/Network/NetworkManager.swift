@@ -11,7 +11,14 @@ import Combine
 protocol NetworkProtocol {
     
     func getData<T: Decodable>(_ dataType: NetworkManager.DataType,
-                               ofType type: T.Type) -> AnyPublisher<T, NetworkManager.APIError>
+                               ofType type: T.Type) -> AnyPublisher<T, APIError>
+}
+
+enum APIError: Error {
+    
+    case invalidResponse
+    case invalidURL
+    case networkError(Error)
 }
 
 class NetworkManager: NetworkProtocol {

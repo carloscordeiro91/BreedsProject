@@ -46,3 +46,29 @@ extension Navigator: BreedDetailsNavigationProtocol  {
         return detailsViewController
     }
 }
+
+extension Navigator: ActionSheetNavigationProtocol {
+    
+    func navigateToErrorAlert(completion: @escaping () -> ()) -> UIAlertController? {
+        
+        let errorAlertViewController = UIAlertController(title: "Error",
+                                                         message: "There is an error fetching tthe data. Please retry",
+                                                         preferredStyle: .alert)
+        
+        let retryAction = UIAlertAction(title: "Retry", style: .default) { _ in
+                
+            completion()
+        }
+        
+        errorAlertViewController.addAction(retryAction)
+        
+        guard let navigationController = self.tabBarController?.selectedViewController as? UINavigationController else {
+            
+            return nil
+        }
+        
+        navigationController.topViewController?.present(errorAlertViewController, animated: true)
+        
+        return errorAlertViewController
+    }
+}

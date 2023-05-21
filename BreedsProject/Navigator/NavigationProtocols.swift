@@ -12,3 +12,9 @@ protocol BreedDetailsNavigationProtocol: AnyObject {
     @discardableResult
     func navigateToBreedDetailsViewController(with breedModel: BreedModel) -> UIViewController?
 }
+
+protocol ActionSheetNavigationProtocol: AnyObject {
+    
+    @discardableResult
+    func navigateToErrorAlert(completion: @escaping () -> ()) -> UIAlertController?
+}

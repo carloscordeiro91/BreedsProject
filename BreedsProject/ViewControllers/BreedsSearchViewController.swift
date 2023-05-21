@@ -24,10 +24,18 @@ class BreedsSearchViewController: UITableViewController {
         
         case breeds
     }
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        
+        let activityIndicator = UIActivityIndicatorView(style: .medium).usingAutoLayout()
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
 
     //MARK: Properties
         
-    private unowned let navigator: BreedDetailsNavigationProtocol
+    private unowned let navigator: BreedsNavigationProtocol
     private let viewModel: BreedsSearchViewModel
     
     private let searchController = UISearchController(searchResultsController: nil)
@@ -37,7 +45,7 @@ class BreedsSearchViewController: UITableViewController {
     //MARK: Initializer
     
     init(viewModel: BreedsSearchViewModel,
-         navigator: BreedDetailsNavigationProtocol) {
+         navigator: BreedsNavigationProtocol) {
         
         self.viewModel  = viewModel
         self.navigator = navigator
@@ -97,6 +105,25 @@ private extension BreedsSearchViewController {
                 self?.applySnapshot()
             }
             .store(in: &cancellables)
+        
+        self.viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                
+                isLoading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+            }
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                
+                if error != nil {
+                    
+                    self?.navigator.navigateToErrorAlert {}
+                }
+            }
+            .store(in: &self.cancellables)
     }
     
     @objc

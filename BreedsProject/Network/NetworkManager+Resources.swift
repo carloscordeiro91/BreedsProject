@@ -9,13 +9,6 @@ import Foundation
 
 extension NetworkManager {
     
-    enum APIError: Error {
-        
-        case invalidResponse
-        case invalidURL
-        case networkError(Error)
-    }
-    
     enum DataType {
         
         case search(text: String)
@@ -44,7 +37,7 @@ extension NetworkManager {
             case .search(text: let searchText):
                 return [
                     URLQueryItem(name: "q", value: searchText)
-]
+                ]
                 
             case .breeds(pageNumber: let pageNumber):
                 return [
